@@ -136,12 +136,14 @@ def connection(**kwargs):
         auto_bind = ldap3.AUTO_BIND_TLS_BEFORE_BIND
     else:
         auto_bind = ldap3.AUTO_BIND_NO_TLS
+    tls = ldap3.Tls(**settings.LDAP_AUTH_TLS_PARAMS)
     # Connect.
     try:
         c = ldap3.Connection(
             ldap3.Server(
                 settings.LDAP_AUTH_URL,
                 allowed_referral_hosts=[("*", True)],
+                tls=tls,
             ),
             user=username,
             password=password,
